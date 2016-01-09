@@ -7,19 +7,28 @@ MAINTAINER Kevin Delfour <kevin@delfour.eu>
 
 # ------------------------------------------------------------------------------
 # Install base
-RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs
+ADD https://deb.nodesource.com/setup /cloud9/node-setup
+RUN bash /cloud9/node-setup && apt-get -yq --no-install-recommends install \
+    build-essential \
+    g++ \
+    curl \
+    libssl-dev \
+    apache2-utils \
+    git \
+    libxml2-dev \
+    sshfs \
+    unzip \
+    tmux \
+    nodejs
 
 # ------------------------------------------------------------------------------
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup | bash -
-RUN apt-get install -y nodejs
-    
-# ------------------------------------------------------------------------------
 # Install Cloud9
-RUN git clone https://github.com/c9/core.git /cloud9
+ADD https://codeload.github.com/c9/core/zip/master /cloud9/master.zip
 WORKDIR /cloud9
-RUN scripts/install-sdk.sh
+RUN unzip master.zip && \
+    mv core-master/* . && \
+    rm -rf core-master master.zip && \
+    ./scripts/install-sdk.sh
 
 # Tweak standlone.js conf
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
@@ -34,7 +43,9 @@ VOLUME /workspace
 
 # ------------------------------------------------------------------------------
 # Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get -yq clean && \
+    find /cloud9 -name .git -prune -exec rm -rf {} \; && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ------------------------------------------------------------------------------
 # Expose ports.
