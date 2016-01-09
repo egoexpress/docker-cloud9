@@ -1,0 +1,15 @@
+datavolume:
+  container_name: cloud9-data
+  image: debian:latest
+  restart: on-failure:10
+  volumes:
+    - /opt/cloud9/workspace:/workspace/
+
+cloud9:
+  container_name: cloud9
+  image: egoexpress/cloud9
+  restart: on-failure:10
+  volumes_from:
+    - datavolume
+  environment:
+    - VIRTUAL_HOST=${DOCKER_CLOUD9_HOSTNAME}
