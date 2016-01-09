@@ -1,40 +1,12 @@
-Cloud9 v3 Dockerfile
+docker-cloud9
 =============
 
-This repository contains Dockerfile of Cloud9 IDE for Docker's automated build published to the public Docker Hub Registry.
-
-# Base Docker Image
-[kdelfour/supervisor-docker](https://registry.hub.docker.com/u/kdelfour/supervisor-docker/)
-
-# Installation
-
-## Install Docker.
-
-Download automated build from public Docker Hub Registry: docker pull kdelfour/cloud9-docker
-
-(alternatively, you can build an image from Dockerfile: docker build -t="kdelfour/cloud9-docker" github.com/kdelfour/cloud9-docker)
+Based on [Kevin Delfour](https://github.com/kdelfour/cloud9-docker)'s excellent [kdelfour/cloud9-docker](https://registry.hub.docker.com/u/kdelfour/cloud9-docker/) image, this version includes a docker-compose setup and various improvements (e.g. usage of nginx-proxy reserve proxy setup).
 
 ## Usage
 
-    docker run -it -d -p 80:80 kdelfour/cloud9-docker
+Get egoexpress/cloud9 container from Docker Hub or build it yourself using 'docker build'. Afterwards, set DOCKER_CLOUD9_HOSTNAME to the hostname of your choice and start the container instance.
     
-You can add a workspace as a volume directory with the argument *-v /your-path/workspace/:/workspace/* like this :
-
-    docker run -it -d -p 80:80 -v /your-path/workspace/:/workspace/ kdelfour/cloud9-docker
-    
-## Build and run with custom config directory
-
-Get the latest version from github
-
-    git clone https://github.com/kdelfour/cloud9-docker
-    cd cloud9-docker/
-
-Build it
-
-    sudo docker build --force-rm=true --tag="$USER/cloud9-docker:latest" .
-    
-And run
-
-    sudo docker run -d -p 80:80 -v /your-path/workspace/:/workspace/ $USER/cloud9-docker:latest
-    
-Enjoy !!    
+    docker build -t egoexpress/cloud9 .
+    export DOCKER_CLOUD9_HOSTNAME=cloud9.example.com
+    docker-compose up -d
