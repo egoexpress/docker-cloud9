@@ -13,3 +13,5 @@ cloud9:
     - datavolume
   environment:
     - VIRTUAL_HOST=${DOCKER_CLOUD9_HOSTNAME}
+    - CLOUD9_USER=${DOCKER_CLOUD9_USERNAME}
+    - CLOUD9_PASS=${DOCKER_CLOUD9_PASSWORD}
