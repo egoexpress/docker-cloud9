@@ -1,14 +1,12 @@
-# ------------------------------------------------------------------------------
-# Based on a work at https://github.com/docker/docker.
-# ------------------------------------------------------------------------------
-# Pull base image.
-FROM kdelfour/supervisor-docker
-MAINTAINER Kevin Delfour <kevin@delfour.eu>
+# Cloud9 IDE (http://c9.io) Dockerfile
+# Based on a work at https://github.com/kdelfour/cloud9-docker
 
-# ------------------------------------------------------------------------------
-# Install base
-ADD https://deb.nodesource.com/setup /cloud9/node-setup
-RUN bash /cloud9/node-setup && apt-get -yq --no-install-recommends install \
+# pull base image.
+FROM kdelfour/supervisor-docker
+MAINTAINER Bjoern Stierand <bjoern-docker@innovention.de>
+
+# install base packages
+RUN apt-get update && apt-get install -yq \
     build-essential \
     g++ \
     curl \
@@ -17,41 +15,34 @@ RUN bash /cloud9/node-setup && apt-get -yq --no-install-recommends install \
     git \
     libxml2-dev \
     sshfs \
-    unzip \
-    tmux \
-    nodejs
+    tmux
 
-# ------------------------------------------------------------------------------
-# Install Cloud9
-ADD https://codeload.github.com/c9/core/zip/master /cloud9/master.zip
+# install Node.js
+RUN curl -sL https://deb.nodesource.com/setup | bash - && \
+    apt-get install -y nodejs 
+
+# install Cloud9
+RUN git clone https://github.com/c9/core.git /cloud9
 WORKDIR /cloud9
-RUN unzip master.zip && \
-    mv core-master/* . && \
-    rm -rf core-master master.zip && \
-    ./scripts/install-sdk.sh
+RUN scripts/install-sdk.sh
 
-# Tweak standlone.js conf
+# tweak standlone.js conf
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
 
-# Add supervisord conf
+# add supervisord conf
 ADD conf/cloud9.conf /etc/supervisor/conf.d/
 
-# ------------------------------------------------------------------------------
-# Add volumes
+# add volumes
 RUN mkdir /workspace
 VOLUME /workspace
 
-# ------------------------------------------------------------------------------
-# Clean up APT when done.
-RUN apt-get -yq clean && \
-    find /cloud9 -name .git -prune -exec rm -rf {} \; && \
+# clean up when done
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# ------------------------------------------------------------------------------
-# Expose ports.
+# expose ports
 EXPOSE 80
 EXPOSE 3000
 
-# ------------------------------------------------------------------------------
-# Start supervisor, define default command.
+# start supervisor
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
