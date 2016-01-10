@@ -15,7 +15,9 @@ RUN apt-get update && apt-get install -yq \
     git \
     libxml2-dev \
     sshfs \
-    tmux
+    tmux \
+    puppet \
+    puppet-lint
 
 # install Node.js
 RUN curl -sL https://deb.nodesource.com/setup | bash - && \
