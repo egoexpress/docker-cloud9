@@ -5,7 +5,7 @@ Based on [Kevin Delfour](https://github.com/kdelfour/cloud9-docker)'s excellent 
 
 ## Prerequisites
 
-This docker setup requires a properly setup nginx reverse proxy setup as provided by [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy). 
+This image requires a properly set up nginx reverse proxy Docker container as provided by [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy).
 
 ## Usage
 
@@ -17,4 +17,4 @@ Get the _egoexpress/cloud9_ container from [Docker Hub](https://hub.docker.com/r
     export DOCKER_CLOUD9_PASSWORD=foobar
     docker-compose up -d
 
-Then use your browser to go to _http://cloud9.example.com_ (the host your specified in _DOCKER_CLOUD9_USERNAME_) and login.
+Then use your browser to go to _http://cloud9.example.com_ (the host your specified in _DOCKER_CLOUD9_HOSTNAME_) and login.
