@@ -1,3 +1,7 @@
+
+[![Code Climate](https://codeclimate.com/github/egoexpress/docker-cloud9/badges/gpa.svg)](https://codeclimate.com/github/egoexpress/docker-cloud9)
+[![](https://imagelayers.io/badge/egoexpress/cloud9:latest.svg)](https://imagelayers.io/?images=egoexpress/cloud9:latest 'Imagelayers.io')
+
 docker-cloud9
 =============
 
