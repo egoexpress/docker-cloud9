@@ -7,7 +7,7 @@ datavolume:
 
 cloud9:
   container_name: cloud9
-  image: egoexpress/cloud9
+  image: egoexpress/cloud9:dev
   restart: on-failure:10
   volumes_from:
     - datavolume
