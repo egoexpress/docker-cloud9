@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -yq \
     python-pip
 
 # install Node.js
-RUN curl -sL https://deb.nodesource.com/setup | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get install -y nodejs 
 
 # install Cloud9
