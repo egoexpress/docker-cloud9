@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# change values below to reflect your environment
+export DOCKER_CLOUD9_HOSTNAME=cloud9.example.com
+export DOCKER_CLOUD9_USERNAME=username
+export DOCKER_CLOUD9_PASSWORD=password
+export DOCKER_LETSENCRYPT_EMAIL=letsencrypt@example.com
+
+docker-compose up -d
+
